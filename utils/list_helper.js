@@ -29,17 +29,13 @@ const favoriteBlog = (blogs) => {
   return mappedBlogs[0];
 };
 
-// return authot with most blogs
+// return author with most blogs
 const mostBlogs = (blogs) => {
   const sortedBlogs = _.countBy(blogs, "author");
   const authorWithMostBlogs = _.maxBy(
     Object.keys(sortedBlogs),
     (author) => sortedBlogs[author]
   );
-
-  console.log("sortedBlogs: _.countBy: ", sortedBlogs);
-  console.log("objectKeys: ", Object.keys(sortedBlogs));
-  console.log("authorWithMostBLogs: _.maxBy: ", authorWithMostBlogs);
 
   return {
     author: authorWithMostBlogs,
