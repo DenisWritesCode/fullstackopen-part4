@@ -57,7 +57,24 @@ test("dummy function returns one", () => {
   expect(result).toBe(1);
 });
 
-test("total likes", () => {
-  const totalLikes = listHelper.totalLikes(blogs);
-  expect(totalLikes).toBe(36);
+describe("total likes", () => {
+  test("returns 0 for an empty array", () => {
+    const totalLikes = listHelper.totalLikes([]);
+    expect(totalLikes).toBe(0);
+  });
+  test("returns 36 when passed a full array", () => {
+    const totalLikes = listHelper.totalLikes(blogs);
+    expect(totalLikes).toBe(36);
+  });
+});
+
+describe("favoriteBlogs", () => {
+  test("return blog with the most likes", () => {
+    const favoriteBlog = listHelper.favoriteBlog(blogs);
+    expect(favoriteBlog).toEqual({
+      title: "Canonical string reduction",
+      author: "Edsger W. Dijkstra",
+      likes: 12,
+    });
+  });
 });
