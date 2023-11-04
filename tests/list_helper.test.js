@@ -69,6 +69,9 @@ describe("total likes", () => {
 });
 
 describe("favoriteBlogs", () => {
+  test("expect 0 for an empty array", () => {
+    expect(listHelper.favoriteBlog([])).toEqual("No Blogs");
+  });
   test("return blog with the most likes", () => {
     const favoriteBlog = listHelper.favoriteBlog(blogs);
     expect(favoriteBlog).toEqual({
@@ -80,8 +83,21 @@ describe("favoriteBlogs", () => {
 });
 
 describe("mostBlogs", () => {
+  test("expect 0 for an empty array", () => {
+    expect(listHelper.mostBlogs([])).toEqual("No Blogs");
+  });
   test("author with the most blogs", () => {
     const mostBlogs = listHelper.mostBlogs(blogs);
     expect(mostBlogs).toEqual({ author: "Robert C. Martin", blogs: 3 });
+  });
+});
+
+describe("test for author with the most likes on their blogs", () => {
+  test("expect 0 for an empty array", () => {
+    expect(listHelper.mostLikes([])).toEqual("No Blogs");
+  });
+  test("author with most likes on their blogs", () => {
+    const mostLikes = listHelper.mostLikes(blogs);
+    expect(mostLikes).toEqual({ author: "Edsger W. Dijkstra", likes: 17 });
   });
 });
