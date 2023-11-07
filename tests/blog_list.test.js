@@ -96,6 +96,27 @@ describe("Some blogs are saved", () => {
       expect(blogTitles).not.toContain(blogToDelete.title);
     });
   });
+
+  describe("updating a blog post", () => {
+    test("update entire blog post", async () => {
+      const updatedBlog = {
+        title: "Updated blog",
+        author: "Doe John",
+        url: "url.test.com",
+        likes: 777,
+      };
+
+      const blogToUpdate = await helper.blogsInDB();
+      await api
+        .put(`/api/blogs/${blogToUpdate[0].id}`)
+        .send(updatedBlog)
+        .expect(200);
+
+      const updatedBlogs = await helper.blogsInDB();
+      const blogTitles = updatedBlogs.map((blog) => blog.title);
+      expect(blogTitles).toContain(updatedBlog.title);
+    });
+  });
 });
 
 afterAll(async () => {
