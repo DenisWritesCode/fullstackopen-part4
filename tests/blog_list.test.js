@@ -17,6 +17,43 @@ describe("controller tests", () => {
 
     expect(blogs.body[0].id).toBeDefined();
   });
+
+  test("making a post request to /api/blogs creates a new blog", async () => {
+    const newBlog = {
+      title: "Test Blog",
+      author: "John Test Doe",
+      url: "test.url.com",
+      likes: 7,
+    };
+
+    (await api.post("/api/blogs"))
+      .send(newBlog)
+      .expect(201)
+      .expect("Content-type", /application\/json/);
+
+    const response = await api.get("/api/blogs");
+    const contents = response.body.map((blog) => blog.title);
+    expect(response.body).toHaveLength(initialBlogs.length + 1);
+    expect(contents).toContain(newBlog.title);
+  });
+
+  test("missing likes property defaults to 0", async () => {
+    const newBlog = {
+      title: "Test Blog 002",
+      author: "John Test Doe",
+      url: "test.url.com",
+    };
+
+    await api
+      .post("/api/blogs")
+      .send(newBlog)
+      .expect(201)
+      .expect("Content-type", /application\/json/);
+
+    const response = await api.get("/api/blogs");
+    const contents = response.body;
+    console.log(contents);
+  });
 });
 
 afterAll(async () => {
