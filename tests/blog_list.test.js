@@ -54,6 +54,23 @@ describe("controller tests", () => {
     const contents = response.body;
     console.log(contents);
   });
+
+  test("missing title or url properties get a 400 bad request response", async () => {
+    const blogWithoutTitle = {
+      author: "John Test Doe",
+      url: "test.url.com",
+      likes: 7,
+    };
+
+    const blogWithoutUrl = {
+      title: "Test Blog",
+      author: "John Test Doe",
+      likes: 7,
+    };
+
+    await api.post("/api/blogs").send(blogWithoutTitle).expect(400);
+    await api.post("/api/blogs").send(blogWithoutUrl).expect(400);
+  });
 });
 
 afterAll(async () => {
