@@ -24,3 +24,16 @@ content-type: application/json
     "url": "url.test.com",
     "likes": 777
 }
+###
+
+GET http://localhost:3001/api/users
+###
+
+POST http://localhost:3001/api/users HTTP/1.1
+content-type: application/json
+
+{
+    "name": "John Doe 002",
+    "username": "user002",
+    "password": "johndoepassword002"
+}
