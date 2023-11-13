@@ -11,7 +11,10 @@ blogsRouter.get('/', async (request, response) => {
 });
 
 blogsRouter.get('/:id', async (request, response) => {
-    const blog = await Blog.findById(request.params.id).populate('user');
+    const blog = await Blog.findById(request.params.id).populate('user', {
+        username: 1,
+        name: 1,
+    });
     if (blog) {
         response.json(blog);
     } else {
@@ -32,6 +35,10 @@ blogsRouter.post('/', async (request, response) => {
     });
 
     const saveResult = await blog.save();
+    // add newly saved blog to blogs array of user
+    user.blogs = user.blogs.concat(saveResult._id);
+    await user.save();
+
     response.status(201).json(saveResult);
 });
 

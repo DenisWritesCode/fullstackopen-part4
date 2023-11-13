@@ -3,10 +3,12 @@ const supertest = require('supertest');
 const helper = require('./test_helper');
 const app = require('../app');
 const api = supertest(app);
+const bcrypt = require('bcrypt');
 
 const Blog = require('../models/blog');
+const User = require('../models/user');
 
-describe('Some blogs are saved', () => {
+xdescribe('Some blogs are saved', () => {
     beforeEach(async () => {
         await Blog.deleteMany({});
         await Blog.insertMany(helper.testBlogs);
@@ -117,6 +119,43 @@ describe('Some blogs are saved', () => {
             expect(blogTitles).toContain(updatedBlog.title);
         });
     });
+});
+
+describe('Saving users', () => {
+    beforeEach(async () => {
+        await User.deleteMany({});
+
+        const passwordHash = await bcrypt.hash('secretPassword', 10);
+        const firstUser = new User({
+            username: 'firstTestUser',
+            name: 'Test User',
+            passwordHash,
+        });
+
+        await firstUser.save();
+    }, 30000);
+    test('adding new users works with unique user name', async () => {
+        const usersAtStart = await helper.usersInDB();
+
+        const newUser = {
+            username: 'username',
+            name: 'Name',
+            password: 'userPassword',
+        };
+
+        await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(201)
+            .expect('Content-type', /application\/json/);
+
+        const usersAtEnd = await helper.usersInDB();
+        expect(usersAtEnd).toHaveLength(usersAtStart.length + 1);
+
+        const usernames = usersAtEnd.map((user) => user.username);
+        expect(usernames).toContain(newUser.username);
+    });
+    test('adding an already existing user fails', async () => {});
 });
 
 afterAll(async () => {

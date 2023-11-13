@@ -16,24 +16,12 @@ const testBlogs = [
     },
 ];
 
-const testUsers = [
-    {
-        username: 'user001',
-        name: 'John Doe',
-    },
-    {
-        username: 'user002',
-        name: 'John Doe 002',
-    },
-];
-
 const blogsInDB = async () => {
     const blogs = await Blog.find({});
     return blogs.map((blog) => blog.toJSON());
 };
 
 const usersInDB = async () => {
-    console.log('userInDB');
     const users = await User.find({});
     return users.map((user) => user.toJSON());
 };
@@ -41,6 +29,5 @@ const usersInDB = async () => {
 module.exports = {
     testBlogs,
     blogsInDB,
-    testUsers,
     usersInDB,
 };
