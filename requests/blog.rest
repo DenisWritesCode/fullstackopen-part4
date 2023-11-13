@@ -13,7 +13,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZ
 }
 ###
 
-DELETE http://localhost:3001/api/blogs/65489e9c047674b6f2eed2d2
+DELETE http://localhost:3001/api/blogs/6544c12f8547090088824013
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwMDIiLCJpZCI6IjY1NGRmODlmZGNkMTE4OTMxNzQ2ZjA0OSIsImlhdCI6MTY5OTg3NDY3MX0.R0xHbqUCmTRAiHPb6XJFlEwe4VSPO-1FS2RuxeXVMuU
 ###
 
 PUT http://localhost:3001/api/blogs/6544ce86530a4df7bc859e75 HTTP/1.1
@@ -51,6 +52,6 @@ POST http://localhost:3001/api/login HTTP/1.1
 Content-Type: application/json
 
 {
-    "username": "user001",
-    "password": "johndoepassword"
+    "username": "user002",
+    "password": "johndoepassword002"
 }
