@@ -26,8 +26,24 @@ const errorHandler = (error, request, response, next) => {
     next(error);
 };
 
+/**
+ * A function to get the user token from the request object's authorization header
+ */
+const tokenExtractor = (request, response, next) => {
+    // Authorization header
+    const authorization = request.get('authorization');
+    if (authorization && authorization.startsWith('Bearer')) {
+        request.token = authorization.replace('Bearer ', '');
+    } else {
+        request.token = null;
+    }
+
+    next();
+};
+
 module.exports = {
     requestLogger,
     unknownEndpoint,
     errorHandler,
+    tokenExtractor,
 };
