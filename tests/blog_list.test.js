@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 const Blog = require('../models/blog');
 const User = require('../models/user');
 
-xdescribe('Some blogs are saved', () => {
+describe('Some blogs are saved', () => {
     beforeEach(async () => {
         await Blog.deleteMany({});
         await Blog.insertMany(helper.testBlogs);
@@ -155,7 +155,26 @@ describe('Saving users', () => {
         const usernames = usersAtEnd.map((user) => user.username);
         expect(usernames).toContain(newUser.username);
     });
-    test('adding an already existing user fails', async () => {});
+    test('adding an already existing username fails', async () => {
+        const usersAtStart = await helper.usersInDB();
+
+        const existingUser = {
+            username: 'firstTestUser',
+            name: 'Different Name',
+            password: 'differentPassword',
+        };
+
+        const result = await api
+            .post('/api/users')
+            .send(existingUser)
+            .expect(400)
+            .expect('Content-type', /application\/json/);
+
+        expect(result.body.error).toContain('expected `username` to be unique');
+
+        const usersAtEnd = await helper.usersInDB();
+        expect(usersAtEnd).toHaveLength(usersAtStart.length);
+    });
 });
 
 afterAll(async () => {
