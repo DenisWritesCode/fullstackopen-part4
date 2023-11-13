@@ -3,13 +3,13 @@ GET http://localhost:3001/api/blogs
 
 POST http://localhost:3001/api/blogs HTTP/1.1
 content-type: application/json
+Authorization: bearereyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwMDEiLCJpZCI6IjY1NGRmODhkZGNkMTE4OTMxNzQ2ZjA0NiIsImlhdCI6MTY5OTg2ODcyMn0._OYHaoNwDkeJ_qa6fzBeifP8dlIbjOTv9IEGdvhGMqg
 
 {
-    "title": "Blog for user 002",
+    "title": "Blog with token authorization",
     "author": "John Doe",
     "url": "test.com",
-    "likes": 23,
-    "userId": "654df89fdcd118931746f049"
+    "likes": 5
 }
 ###
 

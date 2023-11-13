@@ -9,7 +9,7 @@ loginRouter.post('/', async (request, response) => {
 
     // Find the user corresponding to the username
     const user = await User.findOne({ username });
-    /*
+    /**
      * check if that user has provided the correct password.
      * if the user is null, then it means no user for that username exists
      * if the user has a correct password then we are good.

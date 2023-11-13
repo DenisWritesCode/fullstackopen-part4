@@ -1,6 +1,19 @@
 const blogsRouter = require('express').Router();
+const jwt = require('jsonwebtoken');
 const Blog = require('../models/blog');
 const User = require('../models/user');
+
+/**
+ * A function to get the user token from the request object's authorization header
+ */
+const getTokenFrom = (request) => {
+    // Authorization header
+    const authorization = request.get('authorization');
+    if (authorization && authorization.startsWith('Bearer')) {
+        return authorization.replace('Bearer ', '');
+    }
+    return null;
+};
 
 blogsRouter.get('/', async (request, response) => {
     const blogs = await Blog.find({}).populate('user', {
@@ -25,13 +38,26 @@ blogsRouter.get('/:id', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
     const body = request.body;
 
-    const user = await User.findById(request.body.userId);
+    // decode token to get the user details
+    console.log(
+        'decodedToken: ',
+        jwt.verify(getTokenFrom(request), process.env.SECRET)
+    );
+    const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET);
+    console.log('decoded: ', decodedToken);
+    if (!decodedToken.id) {
+        return response.status(401).json({ error: 'token invalid' });
+    }
+
+    // find user by the decoded token data
+    const user = await User.findById(decodedToken.id);
+    console.log('decodedToken: ', decodedToken, user);
     const blog = new Blog({
         title: body.title,
         author: body.author,
         url: body.url,
         likes: body.likes,
-        user: user.id,
+        user: user._id,
     });
 
     const saveResult = await blog.save();
