@@ -3,24 +3,55 @@ GET http://localhost:3001/api/blogs
 
 POST http://localhost:3001/api/blogs HTTP/1.1
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwMDEiLCJpZCI6IjY1NGRmODhkZGNkMTE4OTMxNzQ2ZjA0NiIsImlhdCI6MTY5OTg3MDMwNH0.sMHFxQuWXVvewuGCiNtnZ61HlLxiIuNwqFnsXbUiiEk
 
 {
-    "title": "Blog Title 003",
-    "author": "Doe John",
+    "title": "Blog with token authorization and middleware",
+    "author": "John Doe",
     "url": "test.com",
-    "likes": 2
+    "likes": 5
 }
 ###
 
-DELETE http://localhost:3001/api/blogs/65489e9c047674b6f2eed2d2
+DELETE http://localhost:3001/api/blogs/6544c1558547090088824016
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwMDIiLCJpZCI6IjY1NGRmODlmZGNkMTE4OTMxNzQ2ZjA0OSIsImlhdCI6MTY5OTg3NjM3OH0.aG4d45V__hzTj_INpoH6N9Jh_YOP6m4T-Eec3k14Dro
 ###
 
 PUT http://localhost:3001/api/blogs/6544ce86530a4df7bc859e75 HTTP/1.1
 content-type: application/json
 
 {
-    "title": "Updated blog",
+    "title": "Blog for user 2",
     "author": "Doe John",
     "url": "url.test.com",
-    "likes": 777
+    "likes": 7,
+    "userId": "654df89fdcd118931746f049"
+}
+###
+
+GET http://localhost:3001/api/users
+###
+
+POST http://localhost:3001/api/users HTTP/1.1
+content-type: application/json
+
+{
+    "name": "John Doe 002",
+    "username": "user002",
+    "password": "johndoepassword002"
+}
+###
+###
+<!--
+user001 - johndoepassword
+user002 - johndoepassword002
+-->
+###
+
+POST http://localhost:3001/api/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "user002",
+    "password": "johndoepassword002"
 }
