@@ -32,7 +32,6 @@ blogsRouter.post('/', async (request, response) => {
     }
 
     const user = request.user;
-    console.log('decodedToken: ', decodedToken, user);
     const blog = new Blog({
         title: body.title,
         author: body.author,
@@ -62,7 +61,6 @@ blogsRouter.delete('/:id', async (request, response) => {
             .json({ error: 'token invalid for deletion' });
     }
     const user = request.user;
-    console.log('user: ', user);
     if (blogToDelete.user.toString() === user.id.toString()) {
         await Blog.findByIdAndDelete(request.params.id);
         response.status(204).end();
