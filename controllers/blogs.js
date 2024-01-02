@@ -53,7 +53,7 @@ blogsRouter.post('/', async (request, response) => {
 });
 
 blogsRouter.delete('/:id', async (request, response) => {
-    // make sure the user delete a blog is the blog's creator
+    // make sure the user deleting a blog is the blog's creator
     const blogToDelete = await Blog.findById(request.params.id);
     if (!blogToDelete) {
         return response.status(204).end();
@@ -77,6 +77,7 @@ blogsRouter.put('/:id', async (request, response) => {
     const body = request.body;
 
     const blog = {
+        user: body.user.id,
         title: body.title,
         author: body.author,
         url: body.url,
